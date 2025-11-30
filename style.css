@@ -1,0 +1,256 @@
+/* ==========================================================================
+   FICHIER DE STYLE PORTFOLIO
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES & CONFIGURATION GLOBALE
+   Permet de changer les couleurs du site
+   -------------------------------------------------------------------------- */
+:root {
+    --primary: #38bdf8;          /* Bleu ciel (couleur principale) */
+    --bg-dark: #0f172a;          /* Fond sombre (utilisé pour les puces) */
+    --text-main: #cbd5e1;        /* Texte principal (gris clair) */
+    --text-muted: #94a3b8;       /* Texte secondaire (gris plus foncé) */
+    --glass-bg: rgba(30, 41, 59, 0.6);      /* Fond semi-transparent des cartes */
+    --glass-border: rgba(255, 255, 255, 0.1); /* Bordure subtile des cartes */
+}
+
+html, body {
+    /* background transparent pour voir les étoiles (gérées par la div #global-background) */
+    background: transparent;
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    overflow-x: hidden; /* Empêche le défilement horizontal involontaire */
+}
+
+/* --------------------------------------------------------------------------
+   2. FOND ANIMÉ (ÉTOILES)
+   Gère l'effet "Espace". Les étoiles générées via box-shadow
+   -------------------------------------------------------------------------- */
+#global-background {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    /* Le dégradé de fond (du bleu nuit très sombre au noir) */
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    z-index: -999; /* Place le fond derrière tout le reste */
+    overflow: hidden;
+}
+
+/* Petites étoiles (vitesse standard) */
+.stars {
+    width: 1px; height: 1px;
+    background: transparent;
+    animation: animStar 50s linear infinite; /* Animation de montée */
+    /* Coordonnées des étoiles (X Y Couleur) */
+    box-shadow: 
+        100px 200px #FFF, 450px 120px #FFF, 800px 50px #FFF, 1200px 300px #FFF,
+        150px 800px #FFF, 600px 600px #FFF, 950px 900px #FFF, 1400px 750px #FFF,
+        300px 300px #FFF, 700px 100px #FFF, 1100px 500px #FFF, 1600px 200px #FFF,
+        250px 600px #FFF, 550px 950px #FFF, 900px 400px #FFF, 1300px 850px #FFF,
+        50px 450px #FFF, 400px 350px #FFF, 750px 700px #FFF, 1700px 100px #FFF,
+        200px 1100px #FFF, 650px 1300px #FFF, 1000px 1500px #FFF, 150px 1700px #FFF,
+        1800px 500px #FFF, 1900px 1200px #FFF, 1350px 1400px #FFF, 850px 1600px #FFF,
+        120px 1800px #FFF, 500px 1900px #FFF, 1600px 1600px #FFF, 1100px 1100px #FFF;
+}
+/* Duplication des étoiles pour créer une boucle infinie */
+.stars::after {
+    content: " "; position: absolute; top: 2000px; width: 1px; height: 1px; background: transparent;
+    box-shadow: 
+        100px 200px #FFF, 450px 120px #FFF, 800px 50px #FFF, 1200px 300px #FFF,
+        150px 800px #FFF, 600px 600px #FFF, 950px 900px #FFF, 1400px 750px #FFF,
+        300px 300px #FFF, 700px 100px #FFF, 1100px 500px #FFF, 1600px 200px #FFF,
+        250px 600px #FFF, 550px 950px #FFF, 900px 400px #FFF, 1300px 850px #FFF,
+        50px 450px #FFF, 400px 350px #FFF, 750px 700px #FFF, 1700px 100px #FFF,
+        200px 1100px #FFF, 650px 1300px #FFF, 1000px 1500px #FFF, 150px 1700px #FFF,
+        1800px 500px #FFF, 1900px 1200px #FFF, 1350px 1400px #FFF, 850px 1600px #FFF,
+        120px 1800px #FFF, 500px 1900px #FFF, 1600px 1600px #FFF, 1100px 1100px #FFF;
+}
+
+/* Grosses étoiles */
+.stars2 {
+    width: 2px; height: 2px;
+    background: transparent;
+    animation: animStar 100s linear infinite;
+    box-shadow: 
+        300px 800px #FFF, 700px 200px #FFF, 1100px 1200px #FFF, 1500px 500px #FFF,
+        200px 1400px #FFF, 600px 1700px #FFF, 1800px 900px #FFF, 900px 150px #FFF,
+        1300px 1600px #FFF, 400px 1000px #FFF, 50px 300px #FFF, 1650px 1300px #FFF;
+}
+.stars2::after {
+    content: " "; position: absolute; top: 2000px; width: 2px; height: 2px; background: transparent;
+    box-shadow: 
+        300px 800px #FFF, 700px 200px #FFF, 1100px 1200px #FFF, 1500px 500px #FFF,
+        200px 1400px #FFF, 600px 1700px #FFF, 1800px 900px #FFF, 900px 150px #FFF,
+        1300px 1600px #FFF, 400px 1000px #FFF, 50px 300px #FFF, 1650px 1300px #FFF;
+}
+
+/* Définition du mouvement des étoiles */
+@keyframes animStar { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
+
+/* --------------------------------------------------------------------------
+   3. BARRE DE NAVIGATION
+   Menu fixe en haut avec effet de flou (Glassmorphism).
+   -------------------------------------------------------------------------- */
+.custom-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background-color: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0.5rem 2rem;
+}
+.custom-nav ul li a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+.custom-nav ul li a:hover { color: var(--primary); }
+.custom-nav strong { color: white; }
+/* Bouton "Mon CV" spécifique */
+.btn-cv { background: var(--primary); border: none; color: var(--bg-dark); font-weight: bold; padding: 5px 15px; border-radius: 4px; font-size: 0.85rem; }
+
+/* --------------------------------------------------------------------------
+   4. MISE EN PAGE & UTILITAIRES
+   Classes globales pour l'alignement et les textes.
+   -------------------------------------------------------------------------- */
+main.container { margin-top: 0; padding-top: 20px; }
+h1 { font-family: 'Inter', sans-serif; font-weight: 800; color: white; }
+h2 { font-weight: 700; color: white; margin-bottom: 3rem; display: inline-block; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.section-spacer { margin-bottom: 6rem; scroll-margin-top: 100px; }
+
+/* Grille flexible (utilisée pour les compétences et projets) */
+.grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    align-items: start; /* Empêche les cartes de s'étirer en hauteur inutilement */
+}
+.text-white { color: white; }
+
+/* --------------------------------------------------------------------------
+   5. SECTION HERO (En-tête d'accueil)
+   -------------------------------------------------------------------------- */
+.hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    padding-top: 60px; position: relative; z-index: 2;
+}
+.hero-content { max-width: 800px; padding: 0 20px; animation: fadeIn 1s ease-out; }
+.hero-title { margin-bottom: 1rem; font-size: 3rem; text-shadow: 0 0 20px rgba(56,189,248,0.3); }
+/* Le badge sous le titre (ex: Admin Sys) */
+.hero-badge {
+    display: inline-block; border: 1px solid var(--primary); color: var(--primary);
+    padding: 6px 20px; border-radius: 50px; font-family: 'JetBrains Mono';
+    font-size: 0.85rem; margin-bottom: 2rem; background: rgba(56,189,248,0.1);
+    box-shadow: 0 0 15px rgba(56,189,248,0.1);
+}
+.hero-text { font-size: 1.1rem; max-width: 600px; margin: 0 auto 3rem auto; color: #cbd5e1; line-height: 1.6; }
+.btn-outline { border: 1px solid #475569; color: white; padding: 10px 30px; border-radius: 50px; text-decoration: none; }
+
+/* --------------------------------------------------------------------------
+   6. TIMELINE (Parcours pro)
+   Structure complexe : Ligne centrale + Boites gauche/droite + Puces.
+   -------------------------------------------------------------------------- */
+.timeline { position: relative; max-width: 1000px; margin: 0 auto; padding: 20px 0; }
+/* La ligne verticale bleue au centre */
+.timeline::after { content: ''; position: absolute; width: 4px; background: rgba(56, 189, 248, 0.3); top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; }
+
+/* Conteneurs gauche et droite */
+.tl-container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
+.tl-left { left: 0; text-align: left; }
+.tl-right { left: 50%; text-align: left; }
+
+/* Les cercles numérotés au centre */
+.tl-number {
+    position: absolute; width: 40px; height: 40px; right: -20px; background: var(--bg-dark);
+    border: 3px solid var(--primary); top: 20px; border-radius: 50%; z-index: 10;
+    text-align: center; line-height: 34px; font-weight: bold; color: white;
+    font-family: 'JetBrains Mono'; box-shadow: 0 0 10px var(--primary);
+}
+.tl-right .tl-number { left: -20px; }
+
+/* La boite de contenu (effet verre) */
+.tl-content {
+    padding: 20px; background: rgba(30, 41, 59, 0.8);
+    border: 1px solid var(--glass-border); border-radius: 12px;
+    position: relative; backdrop-filter: blur(5px);
+}
+
+/* Suppression des styles de liste par défaut de PicoCSS pour la timeline */
+.tl-content ul, .tl-content li { list-style: none !important; padding-left: 0 !important; margin: 0 !important; background: none !important; }
+.tl-content li::before { display: none !important; }
+
+/* En-tête de chaque expérience (Poste, Entreprise, Date) */
+.tl-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px; }
+.tl-role { font-size: 1.2rem; font-weight: 700; color: white; }
+.tl-company { color: var(--text-muted); font-size: 0.9rem; }
+.tl-date { font-size: 0.8rem; color: var(--primary); }
+
+/* Grille interne de la timeline (2 colonnes) */
+.tl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+/* Grille empilée (1 colonne) pour les expériences denses (ex: Teddy Smith, Crédit Agricole) */
+.tl-grid-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+.tl-grid-stack h5 {
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+}
+
+/* Petites boites semi-transparentes à l'intérieur de la timeline */
+.glass-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; }
+.glass-box h5 { margin-bottom: 10px; font-size: 0.9rem; }
+
+/* Utilitaires de texte pour la timeline */
+.text-primary { color: var(--primary); }
+.text-indigo { color: #a5b4fc; }
+.list-item { margin-bottom: 5px; color: #cbd5e1; font-size: 0.85rem; }
+
+/* --------------------------------------------------------------------------
+   7. CARTES & BADGES
+   Style des cartes "Projets" et "Compétences" + Badges techniques
+   -------------------------------------------------------------------------- */
+.card-visual {
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;
+    backdrop-filter: blur(5px); position: relative;
+}
+/* La petite barre colorée sur le côté gauche des cartes */
+.card-visual::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--primary), #818cf8); }
+
+.card-title { display: flex; align-items: center; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 1.3rem; }
+.card-icon { margin-right: 12px; font-size: 1.4rem; }
+
+/* Badges de compétences (ex: Docker, Linux) */
+.skill-badge {
+    display: inline-block; background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2); color: var(--primary);
+    padding: 5px 12px; margin: 0 6px 8px 0; border-radius: 6px;
+    font-size: 0.75rem; font-family: 'JetBrains Mono';
+}
+.btn-doc { width: 100%; text-align: center; border-color: var(--primary); color: var(--primary); display: block; margin-top: 1rem; }
+
+/* --------------------------------------------------------------------------
+   8. RESPONSIVE (MOBILE)
+   Adaptation pour les écrans de moins de 768px (Tablettes & Téléphones)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+    /* Déplace la ligne centrale vers la gauche */
+    .timeline::after { left: 31px; }
+    /* Adapte la largeur des conteneurs */
+    .tl-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+    /* Aligne tout à gauche */
+    .tl-left, .tl-right { left: 0; }
+    /* Déplace les cercles numérotés */
+    .tl-number { left: 11px; right: auto; }
+    /* Passe les grilles internes en une seule colonne */
+    .tl-grid { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   9. PIED DE PAGE
+   -------------------------------------------------------------------------- */
+footer { 
+    text-align: center; padding: 3rem 0; 
+    border-top: 1px solid rgba(255,255,255,0.05); 
+    background: rgba(2, 6, 23, 0.9); 
+    color: #475569; font-size: 0.8rem; 
+    margin-top: 4rem; position: relative; z-index: 10; 
+}
